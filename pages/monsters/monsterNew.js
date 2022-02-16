@@ -15,7 +15,7 @@ class MonsterNew extends Component {
     const mon = await owner.methods.getSummary(0).call();
     return {
       address: props.query.address,
-      strength: mon[0].strength
+      // strength: mon[0].strength
     };
   }
 
