@@ -23,6 +23,7 @@ nbproject
 *.sublime-project
 *.sublime-workspace
 sftp-config.json
+.next
 
 # Dreamweaver added files
 _notes

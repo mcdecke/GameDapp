@@ -30,11 +30,11 @@ class PlayerIndex extends Component {
     return (
       <Layout>
         <div>
-          <h3>Newest Monsters</h3>
+          <h3>Newest Players</h3>
           <Link route="/new">
             <a>
               <Button floated='right'
-                content="Create Monster" icon="add circle"
+                content="Create Player" icon="add circle"
                 primary
               />
             </a>
