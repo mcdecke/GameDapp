@@ -4,7 +4,7 @@ const compiledFactory = require('./build/MonsterOwnerFactory.json');
 
 //these should go in an env
 const phrase = 'alarm inject negative life spawn casino notable cactus alarm local brief hand';
-const endpt = 'https://rinkeby.infura.io/v3/3a04022ced214e0ab4ce51cb9a40805e';
+const endpt = 'https://kovan.optimism.io';
 
 const provider = new HDWalletProvider(
   phrase, endpt
