@@ -12,7 +12,6 @@ class MonsterNew extends Component {
     console.log(props.query.address+"!");
     const owner = monsterOwner(props.query.address);
     const a = await owner.methods.getMonsterCount().call();
-    const mon = await owner.methods.getSummary(0).call();
     return {
       address: props.query.address,
       // strength: mon[0].strength

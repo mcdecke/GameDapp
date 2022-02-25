@@ -35,14 +35,14 @@ class MonsterNew extends Component {
     const items = this.props.mons.map(mon => {
 
       const {
-        defense, exp, health, name, speed, strength
+        defense, exp, maxHealth, name, speed, strength
       } = mon;
 
       return {
         header: `${name} - Energy/MaxEng`,
         image: 'https://react.semantic-ui.com/images/avatar/large/matthew.png',
         meta: `monster descriptsion`,
-        description: `Hp: ${health} Strength: ${strength} Defense: ${defense} Speed: ${speed} Exp: ${exp}`,
+        description: `Hp: ${maxHealth} Strength: ${strength} Defense: ${defense} Speed: ${speed} Exp: ${exp}`,
       };
     });
     return <Card.Group items={items} />;
