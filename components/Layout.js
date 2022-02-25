@@ -8,7 +8,6 @@ export default props => {
     <Container>
       <Header />
       {props.children}
-      <h1>Footer</h1>
     </Container>
   )
 }

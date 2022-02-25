@@ -18,8 +18,6 @@ class MonsterNew extends Component {
     };
   }
 
-  // renderCards()
-
   state = {
     name: '',
     errorMessage: '',
