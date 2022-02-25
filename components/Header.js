@@ -28,16 +28,14 @@ class Header extends Component {
         <Link route="/">
           <a className='item'>Home</a>
         </Link>
-
+        <Input
+          transparent
+          placeholder=' Search 0x... '
+          value = {this.state.name}
+          onChange={event => this.setState({name: event.target.value})}
+          style={{width: '50%', padding: '14px'}}
+        />
         <Menu.Menu position='right'>
-          <Menu.Item>
-            <Input
-              transparent
-              placeholder='Search users...'
-              value = {this.state.name}
-              onChange={event => this.setState({name: event.target.value})}
-            />
-          </Menu.Item>
           <Menu.Item>
             <Form position='right' error={!!this.state.errorMessage} onSubmit={this.onSubmit}>
               <Form.Field>

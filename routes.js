@@ -2,7 +2,7 @@ const routes = require('next-routes')();
 
 routes
 //new player
-.add('/new', '/newPlayer')
+.add('/new', '/players/newPlayer')
 // existing player - screen w/ monster cards
 
 //existing monster
