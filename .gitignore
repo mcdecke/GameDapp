@@ -23,7 +23,7 @@ nbproject
 *.sublime-project
 *.sublime-workspace
 sftp-config.json
-.next
+.next/
 
 # Dreamweaver added files
 _notes
@@ -41,6 +41,7 @@ intermediate
 publish
 .idea
 node_modules
+next
 
 # build script local files
 build/buildinfo.properties
