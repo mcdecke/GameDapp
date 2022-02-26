@@ -35,7 +35,7 @@ class MonsterNew extends Component {
       .send({
         from: accounts[0]
       });
-      Router.pushRoute('/')
+      Router.pushRoute(`/${this.props.address}`)
     } catch (err) {
         this.setState({errorMessage: err.message });
     }

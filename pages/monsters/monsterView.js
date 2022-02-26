@@ -65,6 +65,11 @@ class MonsterNew extends Component {
     <Layout>
       <h1>Monsters for {this.props.PlayerAccount}!</h1>
         {this.renderCards()}
+      <Button>
+        <Link route={`/${this.props.PlayerAccount}/new`}>
+          <a>Create New Monster</a>
+        </Link>
+      </Button>
     </Layout>
     )
   }

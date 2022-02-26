@@ -6,7 +6,7 @@ import web3 from '../../ethereum/web3';
 import { Router } from '../../routes';
 
 class PlayerNew extends Component {
-  
+
   state = {
     name: '',
     errorMessage: '',
@@ -26,7 +26,7 @@ class PlayerNew extends Component {
       .send({
         from: accounts[0]
       });
-      // console.log();
+      console.log("Player created at: ", address);
       Router.pushRoute('/')
     } catch (err) {
         this.setState({errorMessage: err.message });
