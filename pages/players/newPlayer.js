@@ -18,6 +18,7 @@ class PlayerNew extends Component {
 
     this.setState({loading: true, errorMessage: ''})
 
+
     try {
       const accounts = await web3.eth.getAccounts();
 
@@ -26,8 +27,8 @@ class PlayerNew extends Component {
       .send({
         from: accounts[0]
       });
-      console.log("Player created at: ", address);
-      Router.pushRoute('/')
+
+      Router.pushRoute(`/${futureAddress}`)
     } catch (err) {
         this.setState({errorMessage: err.message });
     }

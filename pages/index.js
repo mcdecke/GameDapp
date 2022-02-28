@@ -7,43 +7,37 @@ import factory from '../ethereum/factory';
 import monsterOwner from '../ethereum/monster';
 
 class PlayerIndex extends Component {
+
+  state = {
+    owner: 'Other'
+  }
+
   static async getInitialProps(){
     console.log("GIP");
     const players = await factory.methods.getDeployedMonsterOwners().call()
-    // .then((res) => {
-    //   console.log(res);
-    //   return res;
-    // })
     const account = await web3.eth.getAccounts()
-
-    var owner = 'Other'
-    // const a = await owner.methods.getMonsterCount().call();
-    return {  account, players, owner};
+    return {  account, players};
   }
 
   renderPlayers(){
     var playerList = [];
+    var hidden = false;
+
     const items = this.props.players.map(address => {
 
       const creater = monsterOwner(address).methods.manager().call().then((res) => {
-
         if (res == this.props.account[0]){
           playerList.push(address)
         }
-        console.log("Player List: ", playerList);
-        console.log(playerList.indexOf(address) !== -1);
+        console.log("Player List: ", playerList, playerList.indexOf(address));
       });
+      console.log(address, "!", creater[0]);
 
-      
-      if(playerList.indexOf(address) !== -1){
-        console.log(address, "!");
-        this.props.owner = 'You';
-      }
       return {
         header: address,
         description: (
-          <Link route={`/${address}`}>
-            <a>Owned by {this.props.owner}</a>
+          <Link route={`/${address}`} >
+            <a>Owned by you.</a>
           </Link>
         ),
         fluid: true
@@ -75,3 +69,16 @@ class PlayerIndex extends Component {
 }
 
 export default PlayerIndex;
+
+
+// renderPlayers(){
+//     var playerList = [];
+//     const items = this.props.players.map(address => {
+//       const creater = monsterOwner(address).methods.manager().call().then((res) => {
+//         if (res == this.props.account[0]){
+//           this.state.playerList.push(address);
+//         }
+//       }
+//     )
+//   })
+// }
