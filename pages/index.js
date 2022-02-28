@@ -9,7 +9,7 @@ import monsterOwner from '../ethereum/monster';
 class PlayerIndex extends Component {
 
   state = {
-    owner: 'Other'
+    playerList: []
   }
 
   static async getInitialProps(){
@@ -24,26 +24,34 @@ class PlayerIndex extends Component {
     var hidden = false;
 
     const items = this.props.players.map(address => {
-
       const creater = monsterOwner(address).methods.manager().call().then((res) => {
         if (res == this.props.account[0]){
-          playerList.push(address)
+          this.state.playerList.push(address)
         }
-        console.log("Player List: ", playerList, playerList.indexOf(address));
+        // console.log("Player List: ", playerList);
+        // console.log(playerList.indexOf(address));
+        // this.state.playerList = playerList
       });
-      console.log(address, "!", creater[0]);
+      // console.log(address, "!", playerList.indexOf(address));
+      var owner = "Other"
 
+      if(this.state.playerList.indexOf(address) > -1){
+        console.log(address, "!");
+        this.owner = 'You!'
+      } else {
+        this.owner = "Other"
+      }
       return {
         header: address,
         description: (
           <Link route={`/${address}`} >
-            <a>Owned by you.</a>
+            <a>Owned by {this.owner}</a>
           </Link>
         ),
         fluid: true
       }
     });
-    return <Card.Group items={items} />
+    return <Card.Group items={items.reverse()} />
   }
 
   //render after button for 2 colums
