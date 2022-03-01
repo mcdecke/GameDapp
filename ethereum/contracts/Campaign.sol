@@ -65,7 +65,7 @@ contract MonsterOwner{
         manager = creator;
     }
 
-    function createMonster(string name) public restricted {
+    function createMonster(string name, string url) public restricted {
         Monster memory newStat = Monster({
             name: name,
             strength: 1,
@@ -76,7 +76,7 @@ contract MonsterOwner{
             maxEnergy: 3,
             currentEnergy: 3,
             exp: 10,
-            url: ''
+            url: url
         });
         monsters.push(newStat);
     }
@@ -161,21 +161,15 @@ contract MonsterOwner{
 
     }
 
-    function rename(uint spot, string newName, string newUrl) public restricted returns ( string, string ) {
+    function rename(uint mon, string newName, string newUrl) public restricted returns ( string, string ) {
         return (
-            monsters[spot].name = newName,
-            monsters[spot].url = newUrl
+            monsters[mon].name = newName,
+            monsters[mon].url = newUrl
         );
     }
 
     function getMonsterCount() public view returns (uint) {
       return monsters.length;
     }
-
-    // function battle(uint spot, address other) public restricted returns (address) {
-    //     return (
-    //         other
-    //     );
-    // }
 
 }

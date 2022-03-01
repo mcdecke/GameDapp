@@ -15,9 +15,7 @@ class PlayerNew extends Component {
 
   onSubmit = async (event) => {
     event.preventDefault()
-
     this.setState({loading: true, errorMessage: ''})
-
 
     try {
       const accounts = await web3.eth.getAccounts();
@@ -28,7 +26,7 @@ class PlayerNew extends Component {
         from: accounts[0]
       });
 
-      Router.pushRoute(`/${futureAddress}`)
+      Router.pushRoute(`/`)
     } catch (err) {
         this.setState({errorMessage: err.message });
     }

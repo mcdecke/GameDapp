@@ -9,29 +9,27 @@ import monsterOwner from '../../ethereum/monster';
 class MonsterNew extends Component {
 
   static async getInitialProps(props){
-    console.log(props.query.address+"!");
-    const owner = monsterOwner(props.query.address);
-    const a = await owner.methods.getMonsterCount().call();
     return {
       address: props.query.address,
-      // strength: mon[0].strength
     };
   }
 
   state = {
     name: '',
     errorMessage: '',
-    loading: false
+    loading: false,
+    url: ''
   };
 
 
   onSubmit = async (event) => {
     event.preventDefault();
     this.setState({loading: true, errorMessage: ''})
-    const owner = monsterOwner(this.props.address);
+    const player = monsterOwner(this.props.address);
     try {
       const accounts = await web3.eth.getAccounts();
-      await owner.methods.createMonster(this.state.name)
+      console.log(accounts, player);
+      await player.methods.createMonster(this.state.name, this.state.url)
       .send({
         from: accounts[0]
       });
@@ -53,15 +51,15 @@ class MonsterNew extends Component {
             value = {this.state.name}
             onChange={event => this.setState({name: event.target.value})}
           />
+          <label>Image Url</label>
+          <Input
+            value = {this.state.url}
+            onChange={url => this.setState({url: event.target.value})}
+          />
         </Form.Field>
-
         <Message error header="Ooops!" content={this.state.errorMessage} />
         <Button loading={this.state.loading} primary>Create!</Button>
-
       </Form>
-
-
-
     </Layout>
     )
   }

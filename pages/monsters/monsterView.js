@@ -6,12 +6,21 @@ import web3 from '../../ethereum/web3';
 import { Router, Link } from '../../routes';
 import monsterOwner from '../../ethereum/monster';
 
-class MonsterNew extends Component {
+class MonsterView extends Component {
+
+  state = {
+    name: '',
+    errorMessage: '',
+    loading: false,
+    view: 'hidden',
+    number: 0,
+    url: ''
+  };
 
   static async getInitialProps(props){
     let mons = []
     // current player
-    const player = monsterOwner(props.query.address);
+    const player = await monsterOwner(props.query.address);
     // address managing player
     const manager = await player.methods.manager().call();
     // console.log(props.query.address+"!: ", manager);
@@ -19,9 +28,9 @@ class MonsterNew extends Component {
     for (var i = 0; i < monsterCount; i++) {
       mons[i] = await player.methods.monsters(i).call();
     }
-    // console.log(mons);
     return {
-      PlayerAccount: props.query.address,
+      address: props.query.address,
+      player,
       manager,
       monsterCount,
       mons
@@ -29,50 +38,100 @@ class MonsterNew extends Component {
   }
 
   renderCards() {
-
-    const PlayerAccount = this.props.PlayerAccount
-
     const items = this.props.mons.map(mon => {
-
       const {
-        defense, exp, maxHealth, name, speed, strength
+        defense, exp, currentHealth, maxHealth, currentEnergy, maxEnergy, name, speed, strength, url
       } = mon;
 
       return {
-        header: `${name} - Energy/MaxEng`,
-        image: 'https://react.semantic-ui.com/images/avatar/large/matthew.png',
-        meta: `monster descriptsion`,
-        description: `Hp: ${maxHealth} Strength: ${strength} Defense: ${defense} Speed: ${speed} Exp: ${exp}`,
+        header: `${name} `,
+        image: `${url}`,
+        meta: `Hp: ${currentHealth}/${maxHealth} Energy: ${currentEnergy}/${maxEnergy}`,
+        description: `Strength: ${strength} Defense: ${defense} Speed: ${speed} Exp: ${exp}`
       };
     });
-    return <Card.Group items={items} />;
+    return <Card.Group style={{padding: "10px"}} items={items} />;
   }
 
-  state = {
-    name: '',
-    errorMessage: '',
-    loading: false
-  };
+
+  // onSubmit = async (event) => {
+  //   event.preventDefault();
+  //   console.log(this.state.number, this.state.name, this.props.manager, this.props.address);
+  //   this.setState({loading: true, errorMessage: ''})
+  //   try {
+  //     const accounts = await web3.eth.getAccounts();
+  //     const owner = await monsterOwner(accounts[0]);
+  //     console.log('acct:', accounts[0], owner, this.state.number, this.state.name, this.state.url);
+  //     await owner.methods.rename(this.state.number, this.state.name, this.state.url)
+  //     .send({
+  //       from: accounts[0]
+  //     });
+  //     Router.pushRoute(`/${this.props.address}`)
+  //   } catch (err) {
+  //       this.setState({errorMessage: err.message });
+  //   }
+  //   this.setState({loading: false})
+  // };
 
 
   onSubmit = async (event) => {
     event.preventDefault();
-    this.renderCards();
+    this.setState({loading: true, errorMessage: ''})
+    const player = monsterOwner(this.props.address);
+    try {
+      const accounts = await web3.eth.getAccounts();
+      console.log(accounts, player);
+      await player.methods.rename(this.state.number, this.state.name, this.state.url)
+      .send({
+        from: accounts[0]
+      });
+      Router.pushRoute(`/${this.props.address}`)
+    } catch (err) {
+        this.setState({errorMessage: err.message });
+    }
+    this.setState({loading: false})
   };
 
   render(){
     return (
     <Layout>
-      <h1>Monsters for {this.props.PlayerAccount}!</h1>
+      <h2 style={{padding: "10px"}}>Monsters for {this.props.address}!</h2>
         {this.renderCards()}
       <Button>
-        <Link route={`/${this.props.PlayerAccount}/new`}>
+        <Link route={`/${this.props.address}/new`}>
           <a>Create New Monster</a>
         </Link>
       </Button>
+
+      <div>
+          <h3>Train Monster!</h3>
+          <Form error={!!this.state.errorMessage} onSubmit={this.onSubmit} address={this.props.address}>
+            <Form.Field>
+              <label>Number</label>
+              <Input
+                value = {this.state.number}
+                onChange={event => this.setState({number: event.target.value})}
+              />
+              <label>New Name</label>
+              <Input
+                value = {this.state.name}
+                onChange={event => this.setState({name: event.target.value})}
+              />
+
+              <label>New Url</label>
+              <Input
+                value = {this.state.url}
+                onChange={url => this.setState({url: event.target.value})}
+              />
+            </Form.Field>
+            <Message error header="Ooops!" content={this.state.errorMessage} />
+            <Button loading={this.state.loading} primary>Update!</Button>
+          </Form>
+      </div>
+
     </Layout>
     )
   }
 }
 
-export default MonsterNew;
+export default MonsterView;
