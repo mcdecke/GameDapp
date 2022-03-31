@@ -13,7 +13,6 @@ class MonsterView extends Component {
     errorMessage: '',
     loading: false,
     view: 'hidden',
-    number: 0,
     url: ''
   };
 
@@ -39,20 +38,30 @@ class MonsterView extends Component {
 
   renderCards() {
     const items = this.props.mons.map(mon => {
+
       const {
         defense, exp, currentHealth, maxHealth, currentEnergy, maxEnergy, name, speed, strength, url
       } = mon;
 
       return {
-        header: `${name} `,
+        header: (
+          <Link route={`/${this.props.address}/${name}`}>
+            <a>{name}</a>
+          </Link>
+          ),
         image: `${url}`,
         meta: `Hp: ${currentHealth}/${maxHealth} Energy: ${currentEnergy}/${maxEnergy}`,
-        description: `Strength: ${strength} Defense: ${defense} Speed: ${speed} Exp: ${exp}`
+        description: `Strength: ${strength} Defense: ${defense} Speed: ${speed} Exp: ${exp}`,
+
       };
+
     });
+
     return <Card.Group style={{padding: "10px"}} items={items} />;
   }
 
+
+  // New Monster
 
   // onSubmit = async (event) => {
   //   event.preventDefault();
@@ -74,23 +83,25 @@ class MonsterView extends Component {
   // };
 
 
-  onSubmit = async (event) => {
-    event.preventDefault();
-    this.setState({loading: true, errorMessage: ''})
-    const player = monsterOwner(this.props.address);
-    try {
-      const accounts = await web3.eth.getAccounts();
-      console.log(accounts, player);
-      await player.methods.rename(this.state.number, this.state.name, this.state.url)
-      .send({
-        from: accounts[0]
-      });
-      Router.pushRoute(`/${this.props.address}`)
-    } catch (err) {
-        this.setState({errorMessage: err.message });
-    }
-    this.setState({loading: false})
-  };
+  // Rename
+
+  // onSubmit = async (event) => {
+  //   event.preventDefault();
+  //   this.setState({loading: true, errorMessage: ''})
+  //   const player = monsterOwner(this.props.address);
+  //   try {
+  //     const accounts = await web3.eth.getAccounts();
+  //     console.log(accounts, player);
+  //     await player.methods.rename(this.state.number, this.state.name, this.state.url)
+  //     .send({
+  //       from: accounts[0]
+  //     });
+  //     Router.pushRoute(`/${this.props.address}`)
+  //   } catch (err) {
+  //       this.setState({errorMessage: err.message });
+  //   }
+  //   this.setState({loading: false})
+  // };
 
   render(){
     return (
@@ -102,32 +113,6 @@ class MonsterView extends Component {
           <a>Create New Monster</a>
         </Link>
       </Button>
-
-      <div>
-          <h3>Train Monster!</h3>
-          <Form error={!!this.state.errorMessage} onSubmit={this.onSubmit} address={this.props.address}>
-            <Form.Field>
-              <label>Number</label>
-              <Input
-                value = {this.state.number}
-                onChange={event => this.setState({number: event.target.value})}
-              />
-              <label>New Name</label>
-              <Input
-                value = {this.state.name}
-                onChange={event => this.setState({name: event.target.value})}
-              />
-
-              <label>New Url</label>
-              <Input
-                value = {this.state.url}
-                onChange={url => this.setState({url: event.target.value})}
-              />
-            </Form.Field>
-            <Message error header="Ooops!" content={this.state.errorMessage} />
-            <Button loading={this.state.loading} primary>Update!</Button>
-          </Form>
-      </div>
 
     </Layout>
     )

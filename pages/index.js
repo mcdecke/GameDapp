@@ -28,28 +28,38 @@ class PlayerIndex extends Component {
         if (res == this.props.account[0]){
           this.state.playerList.push(address)
         }
-        // console.log("Player List: ", playerList);
-        // console.log(playerList.indexOf(address));
-        // this.state.playerList = playerList
       });
-      // console.log(address, "!", playerList.indexOf(address));
+
       var owner = "Other"
 
       if(this.state.playerList.indexOf(address) > -1){
-        console.log(address, "!");
         this.owner = 'You!'
+        return {
+          header: address,
+          description: (
+            <Link route={`/${address}`} >
+              <a>Owned by {this.owner}</a>
+            </Link>
+          ),
+          fluid: true,
+          hidden: false
+        }
       } else {
         this.owner = "Other"
+        return {
+          header: address,
+          description: (
+            // <div style={{visibility: "hidden"}}>
+              <Link route={`/${address}`} >
+                <a>Owned by {this.owner}</a>
+              </Link>
+            // </div>
+          ),
+          fluid: true,
+
+        }
       }
-      return {
-        header: address,
-        description: (
-          <Link route={`/${address}`} >
-            <a>Owned by {this.owner}</a>
-          </Link>
-        ),
-        fluid: true
-      }
+
     });
     return <Card.Group items={items.reverse()} />
   }
