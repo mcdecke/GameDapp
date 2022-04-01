@@ -87,16 +87,3 @@ class PlayerIndex extends Component {
 }
 
 export default PlayerIndex;
-
-
-// renderPlayers(){
-//     var playerList = [];
-//     const items = this.props.players.map(address => {
-//       const creater = monsterOwner(address).methods.manager().call().then((res) => {
-//         if (res == this.props.account[0]){
-//           this.state.playerList.push(address);
-//         }
-//       }
-//     )
-//   })
-// }
