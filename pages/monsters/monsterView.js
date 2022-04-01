@@ -13,6 +13,7 @@ class MonsterView extends Component {
     errorMessage: '',
     loading: false,
     view: 'hidden',
+    number: 0,
     url: ''
   };
 

@@ -11,9 +11,6 @@ routes
 .add('/:address/new', '/monsters/monsterNew')
 
 // specific monster
-.add('/:address/:number', '/monsters/monsterTrain')
-
-// specific monster
 .add('/:address/:name', '/monsters/monsterTrain');
 
 

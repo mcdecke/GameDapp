@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Input, Message, Card, Segment, Icon, Grid, Radio } from 'semantic-ui-react';
+import { Form, Button, Input, Image, Message, Card, Segment, Icon, Grid, Radio } from 'semantic-ui-react';
 import Layout from '../../components/Layout';
 import factory from '../../ethereum/factory';
 import web3 from '../../ethereum/web3';
@@ -58,7 +58,7 @@ class MonsterTrain extends Component {
 
       return (
         <Card style={{padding: "10px"}}>
-
+            <Image src={url} wrapped ui={false} />
             <Card.Content>
               <Card.Header>{name}</Card.Header>
               <Card.Meta>
@@ -106,7 +106,7 @@ class MonsterTrain extends Component {
     try {
       const accounts = await web3.eth.getAccounts();
       console.log(accounts, player);
-      await player.methods.rename(this.state.number, this.state.name, this.state.url)
+      await player.methods.rename(this.props.number, this.state.name, this.state.url)
       .send({
         from: accounts[0]
       });

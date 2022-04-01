@@ -13,13 +13,13 @@ class PlayerIndex extends Component {
   }
 
   static async getInitialProps(){
-    console.log("GIP");
     const players = await factory.methods.getDeployedMonsterOwners().call()
     const account = await web3.eth.getAccounts()
-    return {  account, players};
+    return {  account, players };
   }
 
   renderPlayers(){
+
     var playerList = [];
     var hidden = false;
 
